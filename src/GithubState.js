@@ -1,10 +1,11 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import gitContext from "./githubContext";
 import axios from "axios";
 import reducer from "./GithubReducer";
 const types = {
   LOADING: "setLoading",
-  SET_USER_LIST: "setUserList",
+  SET_DEFAULT_USER_LIST: "setDefaultUserList",
+  SET_SEARCH_USER_LIST: "setSearchUserList",
   SET_USER_INFO: "setUserInfo",
   CLEAR: "clearData",
   ALERT: "setAlert",
@@ -13,10 +14,21 @@ function GithubState({ children }) {
   const stateData = {
     alert: false,
     loading: false,
-    userList: [],
+    defaultUserList: [],
+    searchUserList: [],
     reposList: [],
     userData: null,
   };
+  async function func() {
+    let arr = await axios
+      .get("https://api.github.com/users")
+      .then((response) => response.data);
+    dispatch({ type: types.SET_DEFAULT_USER_LIST, payload: arr });
+  }
+  useEffect(() => {
+    setLoading();
+    func();
+  }, []);
   const searchUser = async (text) => {
     setLoading();
     let arr = await axios
@@ -25,8 +37,7 @@ function GithubState({ children }) {
       )
       .then((response) => response.data)
       .then((data) => data.items);
-    console.log(arr);
-    dispatch({ type: types.SET_USER_LIST, payload: arr });
+    dispatch({ type: types.SET_SEARCH_USER_LIST, payload: arr });
   };
 
   const oneUser = async (text) => {
@@ -51,7 +62,8 @@ function GithubState({ children }) {
       dispatch({ type: types.ALERT });
     }, 2000);
   };
-  const setLoading = () => dispatch({ type: types.LOADING });
+  const setLoading = () => {
+    dispatch({ type: types.LOADING })};
   const [currentState, dispatch] = useReducer(reducer, stateData);
   return (
     <gitContext.Provider

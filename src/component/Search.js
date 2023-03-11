@@ -1,4 +1,5 @@
 import React, { Fragment, useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import gitContext from "../githubContext";
 export default function Search(props) {
   const [text, setText] = useState("");
@@ -17,9 +18,11 @@ export default function Search(props) {
             }}
             placeholder="Search User"
             value={text}
+            onKeyDown={(e)=>{
+              if(e.key==='Enter')e.preventDefault();
+            }}
           />
-          <button
-            onClick={(e) => {
+          <Link to={`users/${text}`} onClick={(e) => {
               if(!text.trim().length){
                 // props.alert();
                 values.alertUser();
@@ -27,13 +30,13 @@ export default function Search(props) {
                 // props.findUser(text);
                 values.searchUser(text);
               }
-              e.preventDefault();
+              // e.preventDefault();
             }}
+            
             type="submit"
-            className="btn btn-primary my-2"
+            className="btn btn-success my-2"
           >
-            Submit
-          </button>
+            Submit</Link>
           <button
             onClick={() => {
               setText("");

@@ -1,6 +1,7 @@
 const types = {
   LOADING: "setLoading",
-  SET_USER_LIST: "setUserList",
+  SET_DEFAULT_USER_LIST: "setDefaultUserList",
+  SET_SEARCH_USER_LIST:"setSearchUserList",
   SET_USER_INFO: "setUserInfo",
   CLEAR: "clearData",
   ALERT: "setAlert",
@@ -21,13 +22,14 @@ export default function reducer(state, action) {
     case types.CLEAR:
       return {
         ...state,
-        userList: [],
+        defaultUserList: [],
+        searchUserList:[]
       };
-    case types.SET_USER_LIST:
+    case types.SET_DEFAULT_USER_LIST:
       return {
         ...state,
-        userList: action.payload,
-        loading: false,
+        defaultUserList: action.payload,
+        searchUserList:[]
       };
     case types.SET_USER_INFO:
       return {
@@ -36,6 +38,13 @@ export default function reducer(state, action) {
         reposList: action.payload.repos,
         loading: false,
       };
+    case types.SET_SEARCH_USER_LIST:
+      return {
+        ...state,
+        searchUserList:action.payload,
+        loading:false,
+        defaultUserList:[]
+      }
     default:
       return state;
   }

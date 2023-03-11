@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment} from "react";
 import "./App.css";
 import Navbar from "./component/Navbar";
 import Alert from "./component/Alert";
@@ -17,7 +17,9 @@ function App() {
             <Alert />
           </div>
           <Routes>
-            <Route path="/" element={<Home/>} errorElement={<Error/>}/>
+            <Route path="/" element={<Home/>} errorElement={<Error/>}>
+              <Route path="users/:name" element={<Home/>}/>
+            </Route>
             <Route path="user/:loginId" element={<User />} />
             <Route path='*' element={<Error/>}/>
           </Routes>
