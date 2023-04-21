@@ -23,6 +23,7 @@ function GithubState({ children }) {
     let arr = await axios
       .get("https://api.github.com/users")
       .then((response) => response.data);
+      setLoading();
     dispatch({ type: types.SET_DEFAULT_USER_LIST, payload: arr });
   }
   useEffect(() => {
