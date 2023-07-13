@@ -4,7 +4,7 @@ import Useritem from "./Useritem";
 import gitContext from "../githubContext.js";
 export default function Users(props) {
   const values=useContext(gitContext);
-  
+  console.log(values);
   if (values.loading) {
     return (<Spinner/>);
   }else{
