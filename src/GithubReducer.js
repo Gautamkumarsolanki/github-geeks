@@ -29,7 +29,8 @@ export default function reducer(state, action) {
       return {
         ...state,
         defaultUserList: action.payload,
-        searchUserList:[]
+        searchUserList:[],
+        loading:false
       };
     case types.SET_USER_INFO:
       return {
